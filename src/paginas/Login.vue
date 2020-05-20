@@ -1,7 +1,7 @@
 <template>
 
 <div class="container">
-    <form @Login.prevent="login">
+    <form>
     <b-row align-h="center">
         <div class="col-md-6 col-md-3" align-h="center">
             
@@ -16,11 +16,9 @@
         </div>
     </b-row>
     <b-row align-h="center">
-    <b-col cols="4"><button type="Login">Login</button></b-col>
+    <b-col cols="4"><button v-on:click.prevent="login">Login</button></b-col>
   </b-row>
   </form>
-
-
 
 
 </div>
@@ -40,30 +38,28 @@ export default {
           
     },
 
-    login () {
-    this.$http.post('http://localhost:5000/api/login', { id: this.username, AccessKey: this.password })
-        .then(request => this.loginSuccessful(request))
-        .catch(() => this.loginFailed())
-    },
+    methods:{
 
-    loginSuccessful (req) {
-        if (!req.data.token) {
-            this.loginFailed()
-            return
+        login () {
+        this.$http.post('http://localhost:5000/api/login', { id: this.username, AccessKey: this.password })
+            .then(request => (this.loginResponse = request.data.authenticated))
+            if (this.loginResponse == true){
+                window.location.href = '/home';
+            }
+        },
+
+        loginCheck (req) {
+            if (!req.data.token) {
+                console.log('imhere')
+            }
+        },
+
+        loginFailed () {
+            console.log(this.error)
+            this.error = 'Login failed!'
+            delete localStorage.token
+        }
     }
-
-        localStorage.token = req.data.token
-        this.error = false
-
-        this.$router.replace(this.$route.query.redirect || '/home')
-    },
-
-    loginFailed () {
-        console.log(this.error)
-        this.error = 'Login failed!'
-        delete localStorage.token
-    }
-
 
 }
 </script>
