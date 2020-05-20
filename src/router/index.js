@@ -4,6 +4,7 @@ import Home from '../paginas/Home.vue'
 import Login from '../paginas/Login.vue'
 import Comissão from '../paginas/Comissão.vue'
 import Pedidos from '../paginas/Pedidos.vue'
+import FinalizarVenda from '../paginas/FinalizarVenda.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,12 @@ Vue.use(VueRouter)
     name: 'Pedidos',
     component: Pedidos
 
+  },
+
+  {
+    path:'/finalizar',
+    name: 'Finalizar',
+    component: FinalizarVenda
   }
 
 ]
